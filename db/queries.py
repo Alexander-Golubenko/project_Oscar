@@ -5,15 +5,6 @@ SEARCH_BY_KEYWORD = """
     LIMIT 20;
 """
 
-# Базовая версия запроса. Заморожена в связи с изменением логики
-# SEARCH_BY_GENRE_AND_YEAR = """
-#     SELECT f.film_id, f.title
-#     FROM film f
-#     JOIN film_category fc ON f.film_id = fc.film_id
-#     JOIN category c ON fc.category_id = c.category_id
-#     WHERE c.name = %s AND f.release_year = %s
-#     LIMIT 20;
-# """
 
 SEARCH_BY_GENRE_YEAR_BASE = """
     SELECT f.film_id, f.title
@@ -21,6 +12,7 @@ SEARCH_BY_GENRE_YEAR_BASE = """
     JOIN film_category fc ON f.film_id = fc.film_id
     JOIN category c ON fc.category_id = c.category_id
 """
+
 
 CREATE_SEARCH_LOG_TABLE = """
     CREATE TABLE IF NOT EXISTS search_log (
@@ -32,6 +24,7 @@ CREATE_SEARCH_LOG_TABLE = """
     )
 """
 
+
 INSERT_SEARCH_LOG = """
     INSERT INTO search_log (search_type, query_text, query_count, last_queried)
     VALUES (%s, %s, 1, NOW())
@@ -40,6 +33,7 @@ INSERT_SEARCH_LOG = """
         last_queried = NOW();
 """
 
+
 POPULAR_SEARCHES = """
     SELECT query_text, query_count
     FROM search_log
@@ -47,16 +41,37 @@ POPULAR_SEARCHES = """
     LIMIT %s;
 """
 
+
 GET_ALL_GENRES = """
     SELECT DISTINCT name
     FROM category
     ORDER BY name;
 """
 
+
 GET_MIN_YEAR = """
     SELECT MIN(release_year) FROM film;
 """
 
+
 GET_MAX_YEAR = """
     SELECT MAX(release_year) FROM film;
+"""
+
+
+GET_MIN_YEAR_BY_GENRE = """
+    SELECT MIN(f.release_year)
+    FROM film f
+    JOIN film_category fc ON f.film_id = fc.film_id
+    JOIN category c ON fc.category_id = c.category_id
+    WHERE c.name = %s;
+"""
+
+
+GET_MAX_YEAR_BY_GENRE = """
+    SELECT MAX(f.release_year)
+    FROM film f
+    JOIN film_category fc ON f.film_id = fc.film_id
+    JOIN category c ON fc.category_id = c.category_id
+    WHERE c.name = %s;
 """

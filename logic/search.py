@@ -6,7 +6,9 @@ from project_Oscar.db.queries import (
     POPULAR_SEARCHES,
     GET_ALL_GENRES,
     GET_MIN_YEAR,
-    GET_MAX_YEAR
+    GET_MAX_YEAR,
+    GET_MIN_YEAR_BY_GENRE,
+    GET_MAX_YEAR_BY_GENRE
 )
 from project_Oscar.db.connector import get_connection, get_log_connection
 from project_Oscar.logic.logger import log_error
@@ -109,30 +111,6 @@ def log_search(search_type: str, query_text: str) -> None:
         conn.close()
 
 
-# def get_popular_searches(limit: int = 10) -> List[Tuple[str, int]]:
-#     """
-#     Возвращает список самых популярных поисковых запросов.
-#
-#     :param limit: Количество запросов
-#     :return: Список кортежей (запрос, количество)
-#     """
-#     conn = get_log_connection()
-#     if conn is None:
-#         return []
-#     try:
-#         cursor = conn.cursor()
-#         cursor.execute(POPULAR_SEARCHES, (limit,))
-#         results = cursor.fetchall()
-#         cursor.close()
-#         return results
-#     except Exception as e:
-#         log_error("get_popular_searches", e)
-#         print(f"Ошибка при получении популярных запросов: {e}")
-#         return []
-#     finally:
-#         conn.close()
-
-
 def get_all_genres() -> List[str]:
     """
     Возвращает список всех уникальных жанров из базы, отсортированных по алфавиту.
@@ -153,21 +131,30 @@ def get_all_genres() -> List[str]:
         conn.close()
 
 
-def get_year_range() -> Tuple[int, int] | None:
+def get_year_range(genre: str | None = None) -> Tuple[int, int] | None:
     """
-    Возвращает минимальный и максимальный год выпуска фильмов из базы.
-
-    :return: Кортеж (min_year, max_year) или None при ошибке
+    Возвращает минимальный и максимальный год выпуска фильмов.
+    Если указан жанр, диапазон считается только по фильмам этого жанра.
     """
     conn = get_connection()
     if conn is None:
         return None
     try:
         cursor = conn.cursor()
-        cursor.execute(GET_MIN_YEAR)
-        min_year = cursor.fetchone()[0]
-        cursor.execute(GET_MAX_YEAR)
-        max_year = cursor.fetchone()[0]
+
+        if genre:
+            cursor.execute(GET_MIN_YEAR_BY_GENRE, (genre,))
+            min_year = cursor.fetchone()[0]
+
+            cursor.execute(GET_MAX_YEAR_BY_GENRE, (genre,))
+            max_year = cursor.fetchone()[0]
+        else:
+            cursor.execute(GET_MIN_YEAR)
+            min_year = cursor.fetchone()[0]
+
+            cursor.execute(GET_MAX_YEAR)
+            max_year = cursor.fetchone()[0]
+
         cursor.close()
         return min_year, max_year
     except Exception as e:

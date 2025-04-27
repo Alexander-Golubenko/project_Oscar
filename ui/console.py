@@ -53,7 +53,7 @@ def ask_genre_and_year() -> Tuple[str | None, int | None] | None:
             print("Ошибка ввода. Введите номер жанра или Enter для пропуска.")
 
     # Выбор года
-    year_range = get_year_range()
+    year_range = get_year_range(selected_genre)
     if not year_range:
         print("Не удалось получить диапазон лет.")
         return None
