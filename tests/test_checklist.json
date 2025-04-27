@@ -1,0 +1,103 @@
+[
+  {
+    "id": "TC001",
+    "feature": "search_by_keyword",
+    "description": "Поиск фильмов по ключевому слову",
+    "input": "ACADEMY",
+    "expected": "Список фильмов с названием, содержащим 'ACADEMY'",
+    "status": "pass"
+  },
+  {
+    "id": "TC002",
+    "feature": "search_by_genre_and_year",
+    "description": "Поиск фильмов по жанру 'Action' и году '2006'",
+    "input": {
+      "genre": "Action",
+      "year": 2006
+    },
+    "expected": "Список фильмов жанра 'Action' за 2006 год",
+    "status": "pass"
+  },
+  {
+    "id": "TC003",
+    "feature": "log_search",
+    "description": "Логирование поискового запроса",
+    "input": {
+      "type": "keyword",
+      "term": "TEST"
+    },
+    "expected": "Запись добавлена в таблицу search_log",
+    "status": "pass"
+  },
+  {
+    "id": "TC004",
+    "feature": "get_top_queries",
+    "description": "Получение популярных запросов",
+    "input": "limit=10",
+    "expected": "Список из не более чем 10 запросов, отсортированных по убыванию частоты",
+    "status": "pass"
+  },
+  {
+    "id": "TC005",
+    "feature": "get_film_details",
+    "description": "Просмотр картоффчки фильма по его ID",
+    "input": "film_id=1",
+    "expected": "Вывод карточки фильма с описанием, жанром, актерами, длительностью и годом",
+    "status": "pass"
+  },
+  {
+    "id": "TC006",
+    "feature": "console flow",
+    "description": "Проверка взаимодействия через интерфейс консоли",
+    "input": "Выбор 1, ввод ключевого слова, просмотр фильма",
+    "expected": "Корректный цикл взаимодействия с пользователем",
+    "status": "pass"
+  },
+{
+    "id": "TC007",
+    "feature": "get_connection_failure",
+    "description": "Подключение к базе данных с ошибочными параметрами",
+    "input": "Неверное имя базы",
+    "expected": "Ошибка подключения и возврат None",
+    "status": "pass"
+  },
+  {
+    "id": "TC008",
+    "feature": "search_by_keyword_empty_result",
+    "description": "Поиск по ключевому слову, которое не существует",
+    "input": "zzzzzz",
+    "expected": "Получен пустой список",
+    "status": "pass"
+  },
+  {
+    "id": "TC009",
+    "feature": "search_by_genre_and_year_invalid_year",
+    "description": "Поиск с некорректным годом",
+    "input": {
+      "genre": "Action",
+      "year": "abcd"
+    },
+    "expected": "Вывод ошибки валидации",
+    "status": "pass"
+  },
+  {
+    "id": "TC010",
+    "feature": "show_menu_invalid_option",
+    "description": "Неверный ввод в главном меню",
+    "input": "999",
+    "expected": "Вывод предупреждения и повтор запроса",
+    "status": "pass"
+  },
+  {
+    "id": "TC011",
+    "feature": "log_search_twice",
+    "description": "Повторный лог одного и того же запроса",
+    "input": {
+      "type": "keyword",
+      "term": "TEST"
+    },
+    "expected": "Оба запроса записаны в лог",
+    "status": "pass"
+  }
+
+]
