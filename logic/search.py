@@ -54,7 +54,7 @@ def search_by_genre_and_year(genre: str | None, year: int | None) -> List[Tuple[
     try:
         cursor = conn.cursor()
 
-        query = SEARCH_BY_GENRE_YEAR_BASE  # Базовый запрос из queries.py
+        query = SEARCH_BY_GENRE_YEAR_BASE
         conditions = []
         params = []
 
@@ -80,7 +80,7 @@ def search_by_genre_and_year(genre: str | None, year: int | None) -> List[Tuple[
     finally:
         conn.close()
 
-    # Для логирования
+    # лог
     genre_text = genre if genre is not None else "any_genre"
     year_text = str(year) if year is not None else "any_year"
     log_search("genre_year", f"{genre_text}:{year_text}")

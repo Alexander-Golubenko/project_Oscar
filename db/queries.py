@@ -75,3 +75,23 @@ GET_MAX_YEAR_BY_GENRE = """
     JOIN category c ON fc.category_id = c.category_id
     WHERE c.name = %s;
 """
+
+
+GET_FILM_DETAILS = """
+        SELECT f.title, \
+               f.description, \
+               f.release_year, \
+               f.length, \
+               l.name AS language,
+           GROUP_CONCAT(CONCAT(a.first_name, ' ', a.last_name) SEPARATOR ', ') AS actors,
+           GROUP_CONCAT(DISTINCT c.name SEPARATOR ', ') AS categories
+        FROM film f
+            JOIN language l \
+        ON f.language_id = l.language_id
+            JOIN film_actor fa ON f.film_id = fa.film_id
+            JOIN actor a ON fa.actor_id = a.actor_id
+            JOIN film_category fc ON f.film_id = fc.film_id
+            JOIN category c ON fc.category_id = c.category_id
+        WHERE f.film_id = %s
+        GROUP BY f.film_id; \
+        """

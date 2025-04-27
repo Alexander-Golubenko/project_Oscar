@@ -31,7 +31,7 @@ def ask_genre_and_year() -> Tuple[str | None, int | None] | None:
         print("Не удалось получить список жанров.")
         return None
 
-    # Выбор жанра
+    # выбор жанра
     print("\nДоступные жанры:")
     for i, genre in enumerate(genres, start=1):
         print(f"{i}. {genre}")
@@ -52,7 +52,7 @@ def ask_genre_and_year() -> Tuple[str | None, int | None] | None:
         else:
             print("Ошибка ввода. Введите номер жанра или Enter для пропуска.")
 
-    # Выбор года
+    # выбор года
     year_range = get_year_range(selected_genre)
     if not year_range:
         print("Не удалось получить диапазон лет.")
@@ -97,7 +97,7 @@ def show_search_results(results: List[Tuple], show_year: bool = True) -> int | N
         sub_choice = input("Введите номер фильма для подробностей или нажмите Enter для пропуска: ").strip()
 
         if sub_choice == "":
-            return None  # Пользователь решил пропустить
+            return None  # User решил пропустить
 
         if sub_choice.isdigit():
             index = int(sub_choice) - 1

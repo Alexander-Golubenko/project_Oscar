@@ -1,11 +1,9 @@
 import logging
 import os
 
-# Создаём папку logs, если её нет
 log_dir = "logs"
 os.makedirs(log_dir, exist_ok=True)
 
-# Настраиваем логирование
 logging.basicConfig(
     filename=os.path.join(log_dir, "errors.log"),
     level=logging.ERROR,
