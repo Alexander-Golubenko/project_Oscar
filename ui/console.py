@@ -1,5 +1,6 @@
 from project_Oscar.logic.details import get_film_details
 from project_Oscar.logic.search import get_all_genres, get_year_range
+from project_Oscar.logic.search import search_by_keyword, search_by_genre_and_year
 from typing import List, Tuple
 
 
@@ -107,6 +108,40 @@ def show_search_results(results: List[Tuple], show_year: bool = True) -> int | N
                 print("Неверный номер фильма. Попробуйте ещё раз.")
         else:
             print("Ошибка ввода. Введите номер фильма или просто Enter.")
+
+
+def run_keyword_search() -> None:
+    """
+    Запускает сценарий поиска по ключевому слову.
+    """
+    keyword = ask_keyword()
+    if not keyword:
+        print("Пустой ввод. Попробуйте снова.")
+        return
+
+    results = search_by_keyword(keyword)
+    film_id = show_search_results(results)
+    if film_id:
+        get_film_details(film_id)
+
+
+def run_genre_year_search() -> None:
+    """
+    Запускает сценарий поиска по жанру и году.
+    """
+    genre_year = ask_genre_and_year()
+    if genre_year is None:
+        return
+
+    genre, year = genre_year
+    results = search_by_genre_and_year(genre, year)
+    if not results:
+        print("\nПо вашему запросу ничего не найдено.")
+    else:
+        film_id = show_search_results(results, show_year=False)
+        if film_id:
+            get_film_details(film_id)
+
 
 def ask_continue() -> bool:
     """
